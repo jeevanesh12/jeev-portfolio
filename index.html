@@ -155,12 +155,13 @@
                 <a href="images/Sathiaseelan_Jeevanesh_Resume_2025.pdf" download class="btn btn2">Download my Resume</a>
             </div>
             <div class="contact-right">
-                <form>
+                <form name="submit-to-google-sheet">
                     <input type="text" name="Name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="email" name="Email" placeholder="Your Email" required>
                     <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
                     <button type="submit" class="btn btn2">Submit</button>
                 </form>
+                <span id="msg"></span>
             </div>
             </div>
         </div>
@@ -199,5 +200,26 @@
     }
 
 </script>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyF8n9iIU28SqQGUy0toauS2feuzyg__71FYPY85ydbzVR6sVBCj7NufNPC-g366BaNKQ/exec'
+    const form = document.forms['submit-to-google-sheet']
+    const msg = document.getElementById("msg")
+  
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            msg.innerHTML = "Message has been sent"
+            setTimeout(function(){
+                msg.innerHTML = ""
+            },5000)
+            form.reset()
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+
+
 </body>
 </html>
